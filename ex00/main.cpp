@@ -1,31 +1,24 @@
 #include"Zombie.hpp"
 
-Zombie*	newZombie(std::string name)
-{
-	Zombie	*z;
-	//todo: newのやり方
+int	main() {
+	Zombie	*heap_1;
+	Zombie	*heap_2;
 
-	//newでZombieを作成 & nameを設定
-	return (z);
-}
+	heap_1 = newZombie("heap_1");
+	heap_1->announce();
+	randomChump("stack_1");
 
-void randomChump( std::string name)
-{
-	//動的にZombieを確保はしない。ただ、nameでannounceするだけ
-	/* nameを引数としてZombieクラスのコンストラクタを呼び出し、初期化 */
-	Zombie	z(name);
+	std::cout << std::endl;
 
-	z.announce();
-}
+	randomChump("stack_2");
+	heap_2 = newZombie("heap_2");
+	heap_2->announce();
 
-int	main()
-{
-	//ゾンビクラスの配列を宣言
-	Zombie	*z;
 
-	z = newZombie("Foo");
-	randomChump("hoge");
+	std::cout << std::endl;
 
-	//todo: デストラクタの使い方
+	/* deleteにより、デストラクタが呼ばれる */
+	delete heap_1;
+	delete heap_2;
 	return (EXIT_SUCCESS);
 }
