@@ -3,26 +3,34 @@
 #include <cstdlib>
 #include <fstream>
 
-std::string	loadInputFile(char *file, std::string s1, std::string s2) {
+std::string	replaceLine(std::string& line, const std::string s1, const std::string s2) {
+	size_t pos = 0;
+	while ((pos = line.find(s1, pos)) != std::string::npos) {
+		// lineのうち、posからs1.length()削除
+		line.erase(pos, s1.length());
+		// lineのうち、posからs2を挿入
+		line.insert(pos, s2);
+		pos += s2.length();
+	}
+	return (line);
+}
+
+std::string	loadInputFile(char *file, const std::string s1, const std::string s2) {
 	std::string line;
 	std::string lines;
 
+	if (s1.empty()) {
+		std::cerr << "Error: s1 must not be empty\n";
+		std::exit(EXIT_FAILURE);
+	}
 	std::fstream in_file(file);  // 読み込むファイルのパスを指定
 	if (!in_file.is_open()) {
 		std::cout << "Error: Open failed." << std::endl;
 		std::exit(EXIT_FAILURE);
 	}
+
 	while (std::getline(in_file, line)) {  // 1行ずつ読み込む
-		size_t begin = line.find(s1);
-		if (begin != std::string::npos)
-		{
-			// lineのうち、beginからs1.size()削除
-			line.erase(begin, s1.size());
-			// lineのうち、beginからs2を挿入
-			line.insert(begin, s2);
-			//todo: 消す
-			std::cout << line << std::endl;
-		}
+		line = replaceLine(line, s1, s2);
 		lines.append(line);
 		lines.push_back('\n');
 	}
@@ -41,10 +49,9 @@ void	writeOutputFile(std::string	file, std::string lines) {
 	out_file.close();
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	if (argc != 4) {
-		std::cout << "The argument should be \"./filename string1 string2\"" << std::endl;
+		std::cout << "Error: The argument should be \"./filename string1 string2\"" << std::endl;
 		std::exit(EXIT_FAILURE);
 	}
 
