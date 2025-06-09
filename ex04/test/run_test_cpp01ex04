@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+./brain test/space " " "A"
+diff test/space test/space.replace
+
+./brain test/space " " "A"
+diff test/space test/space.replace
+
+
+
+
+
+echo "完了！"
