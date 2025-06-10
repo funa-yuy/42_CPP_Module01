@@ -59,3 +59,9 @@ int main(int argc, char *argv[]) {
 	writeOutputFile(argv[1], lines);
 	return (EXIT_SUCCESS);
 }
+
+/* オリジナルテスト実行コマンド */
+// ```bash
+// chmod +x test/run_test_cpp01ex04
+// ./test/run_test_cpp01ex04
+// ```

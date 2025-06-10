@@ -1,13 +1,41 @@
 #!/usr/bin/env bash
 
+echo "----- 基本ver -----"
+./brain test/num "2" "42"
+diff -y  test/num test/num.replace
+
+echo "----- s1が空白のみ -----"
 ./brain test/space " " "A"
-diff test/space test/space.replace
+diff -y  test/space test/space.replace
 
-./brain test/space " " "A"
-diff test/space test/space.replace
+echo "----- s2が空 -----"
+./brain test/space " " ""
+diff -y  test/space test/space.replace
 
+echo "----- 1行に複数s1がある -----"
+./brain test/42tokyo "42" "¥42,000,000"
+diff -y  test/42tokyo test/42tokyo.replace
 
+echo "----- fileの中身が空 -----"
+./brain test/empty "s1" "s2"
+diff -y  test/empty test/empty.replace
 
+echo "----- fileの中身が改行のみ -----"
+./brain test/all_nl " " "s2"
+diff -y  test/all_nl test/all_nl.replace
 
+echo "----- 空行が混在 -----"
+./brain test/nl "h" "42 H"
+diff -y  test/nl test/nl.replace
 
-echo "完了！"
+echo "----- Error: s1が空 -----"
+./brain test/num "" "42"
+diff -y  test/num test/num.replace
+
+echo "----- Error: 存在しないファイル -----"
+./brain test/no_exist "s1" "s2"
+diff -y  test/no_exist test/no_exist.replace
+
+echo "----- replaceファイル消す用 -----"
+rm test/*.replace
+
